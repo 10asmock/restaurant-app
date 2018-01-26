@@ -26,7 +26,6 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-#COMPLETED TEMPLATE
 @app.route('/')
 @app.route('/restaurant')
 def showRestaurants():
@@ -34,15 +33,20 @@ def showRestaurants():
         return render_template('restaurants.html', restaurants =
             restaurants)
 
-#COMPLETED TEMPLATE
-@app.route('/restaurant/new')
+
+@app.route('/restaurant/new/', methods=['GET','POST'])
 def newRestaurant():
-            #return "This page will be for making a new restaurant."
-            return render_template('newRestaurant.html', restaurants =
-                restaurants)
+    if request.method == 'POST':
+        newRestaurants = restaurant(request.form['name'])
+        session.add(newRestaurants)
+        session.commit()
+        return redirect(url_for('showRestaurants', restaurant = newRestaurants))
+    else:
+        return render_template('newRestaurant.html', restaurant =
+        newRestaurants)
 
 
-# GET HELP FOR editRestaurant
+
 @app.route('/restaurant/<int:restaurants_id>/edit/')
 def editRestaurant(restaurants_id):
     #return "This page will be for editing restaurant %s." % restaurants_id
@@ -50,7 +54,6 @@ def editRestaurant(restaurants_id):
     return render_template('editRestaurant.html', restaurants_id = restaurants_id)
 
 
-#GET HELP FOR deleteRestaurant
 @app.route('/restaurant/<int:restaurant_id>/delete/')
 def deleteRestaurant(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(restaurant_id = id.restaurants).one()
