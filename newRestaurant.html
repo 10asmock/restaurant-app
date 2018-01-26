@@ -4,12 +4,12 @@
   <h1> Create a New Restaurant </h1>
   <p>Name:</p>
 
-  <form action="{{url_for('newRestaurant', restaurants_id = restaurants.id, restaurants_name = restaurants.name) }}" method = 'POST'>
+  <form action="{{url_for('newRestaurant', newRestaurant = restaurant) }}" method = 'POST'>
   <input type="text" name="name">
-  <input type="submit" value="Submit">
+  <input type="submit" value="Create">
 
   <a href="#"> Cancel </a>
 
-</body>
 </form>
+</body>
 </html>
